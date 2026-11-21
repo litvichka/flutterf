@@ -30,7 +30,7 @@ jobs:
       - name: push
         run: |
           # 1. Собираем веб-приложение
-         
+          git config set advice.addIgnoredFile false
           # 2. Настраиваем Git (обязательно для коммита на раннере)
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

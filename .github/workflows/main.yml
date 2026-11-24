@@ -18,31 +18,23 @@ jobs:
         with:
           channel: stable
           cache: true
-
+      - name: Build Web
+        run: flutter create .
       # 3. Получаем зависимости
       - name: Install dependencies
         run: flutter pub get
 
-      # 4. Собираем Web (результат появится в build/web)
+       # 4. Собираем Web (результат появится в build/web)
       - name: Build Web
         run: flutter build web
-
-      - name: push
+      - name: Commit and Push build/web
         run: |
-          # 1. Собираем веб-приложение
-          git config set advice.addIgnoredFile false
-          # 2. Настраиваем Git (обязательно для коммита на раннере)
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/web -f
+          git commit -m "Auto-build: update build/web [skip ci]" || echo "No changes to commit"
+          git push
 
-          
-          git add build/web
-          git commit -m "Deploy: Flutter Web build" || echo "Нет изменений для коммита"
-
-          # 4. Пушим в ветку gh-pages (force push перезапишет предыдущую сборку)
-          git push https://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@github.com/litvichka/flutterf.git 
-
-   
 
       # 6. Собираем APK (результат появится в build/app/outputs/flutter-apk/)
       #- name: Build APK
